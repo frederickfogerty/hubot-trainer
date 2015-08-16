@@ -30,7 +30,7 @@ startTrainer = (robot) ->
       usersPostedLightbulb = []
     start: true
     timeZone: 'Pacific/Auckland'
-  robot.hear /:lightbulb:/, (res) ->
+  robot.hear /:bulb:/, (res) ->
     usersPostedLightbulb.push(res.message.user.name)
   return {
     stop: ->
@@ -47,11 +47,12 @@ startTrainer = (robot) ->
   }
 
 checkIfArrayEqualIgnoreOrder = (a, b) ->
-  if (a.length !== b.length) return false
+  if (a.length !== b.length)
+    return false
   for i in a
-    console.log(i)
     if i not in b
       return false
+
   return true
 
 

@@ -20,7 +20,7 @@ startTrainer = (robot) ->
   checkIfUsersPostedCron = new cron
     cronTime: '00 00 11 * * 1-5'
     onTick: ->
-      robot.send 'lightbulbs'
+      robot.send 'Remember to '
     start: true
     timeZone: 'Pacific/Auckland'
 
@@ -32,7 +32,6 @@ startTrainer = (robot) ->
     timeZone: 'Pacific/Auckland'
   robot.hear /:lightbulb:/, (res) ->
     usersPostedLightbulb.push(res.message.user.name)
-    console.log res
   return {
     stop: ->
       checkIfUsersPostedCron.stop()
@@ -43,7 +42,15 @@ startTrainer = (robot) ->
     start: ->
       checkIfUsersPostedCron.start()
       deleteUsersPostsCron.start()
+    currentUsersPosted: ->
+      return usersPostedLightbulb
   }
+
+checkIfArrayEqualIgnoreOrder = (a, b) ->
+  for i in a
+    if i not in b
+      return false
+  return true
 
 
 module.exports = (robot) ->
@@ -59,6 +66,13 @@ module.exports = (robot) ->
     currentTrainer = startTrainer(robot)
     currentTrainer.start()
     res.send 'Trainer Started'
+
+  robot.respond /trainer check/, (res) ->
+    res.send('Current Users' + currentTrainer.currentUsersPosted().join(', '))
+    res.send(':lightbulb:')
+    res.send('Everyone posted? ' + checkIfArrayEqualIgnoreOrder(currentTrainer.currentUsersPosted(), ['fred', 'sam']))
+    res.send('Everyone posted? ' + checkIfArrayEqualIgnoreOrder(currentTrainer.currentUsersPosted(), ['fred']))
+
 
   robot.hear /orly/, (res) ->
     res.send "yarly"

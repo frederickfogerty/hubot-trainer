@@ -1,7 +1,7 @@
 {
   "name": "hubot-trainer",
   "description": "A hubot script to train your team to do certain actions",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "author": "Frederick Fogerty <frederick.fogerty@gmail.com>",
   "license": "MIT",
   "keywords": "hubot, hubot-scripts",

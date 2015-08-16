@@ -47,7 +47,7 @@ startTrainer = (robot) ->
   }
 
 checkIfArrayEqualIgnoreOrder = (a, b) ->
-  if (a.length !== b.length)
+  if (a.length != b.length)
     return false
   for i in a
     if i not in b

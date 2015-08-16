@@ -27,7 +27,7 @@ startTrainer = (robot) ->
   deleteUsersPostsCron = new cron
     cronTime: '00 00 23 * * *'
     onTick: ->
-      usersPostedLightbulb = [],
+      usersPostedLightbulb = []
     start: true
     timeZone: 'Pacific/Auckland'
   robot.hear /:lightbulb:/, (res) ->

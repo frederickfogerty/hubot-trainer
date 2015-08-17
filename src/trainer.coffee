@@ -14,13 +14,18 @@
 # Author:
 #   Frederick Fogerty <frederick.fogerty@gmail.com>
 cron = require('cron').CronJob
+_ = require('lodash')
 
 startTrainer = (robot) ->
+  usersWhoShouldHavePosted = ['fred', 'sam', 'katiegreenwood', 'missgraysouffle', 'jay', 'mvh', 'han', 'haley', 'kusskuss']
   usersPostedLightbulb = []
   checkIfUsersPostedCron = new cron
     cronTime: '00 00 11 * * 1-5'
     onTick: ->
-      robot.send 'Remember to '
+      if not checkIfArrayEqualIgnoreOrder(usersWhoShouldHavePosted, usersPostedLightbulb)
+        robot.send 'lightbulbs', 'Hey, ' + _.without(usersWhoShouldHavePosted, usersPostedLightbulb...).join(', ') + ', make sure you\'ve posted your idea today, and use :bulb: to make sure I recognise your message!'
+      else
+        robot.send 'Good work team, everyone posted their ideas!'
     start: true
     timeZone: 'Pacific/Auckland'
 
@@ -30,8 +35,10 @@ startTrainer = (robot) ->
       usersPostedLightbulb = []
     start: true
     timeZone: 'Pacific/Auckland'
+
   robot.hear /:bulb:/, (res) ->
     usersPostedLightbulb.push(res.message.user.name)
+
   return {
     stop: ->
       checkIfUsersPostedCron.stop()
@@ -44,6 +51,8 @@ startTrainer = (robot) ->
       deleteUsersPostsCron.start()
     currentUsersPosted: ->
       return usersPostedLightbulb
+    checkIfUsersPosted: ->
+      checkIfArrayEqualIgnoreOrder(usersWhoShouldHavePosted, usersPostedLightbulb)
   }
 
 checkIfArrayEqualIgnoreOrder = (a, b) ->
@@ -72,9 +81,8 @@ module.exports = (robot) ->
 
   robot.respond /trainer check/, (res) ->
     res.send('Current Users' + currentTrainer.currentUsersPosted().join(', '))
-    res.send(':lightbulb:')
     res.send('Everyone posted? ' + checkIfArrayEqualIgnoreOrder(currentTrainer.currentUsersPosted(), ['fred', 'sam']))
-    res.send('Everyone posted? ' + checkIfArrayEqualIgnoreOrder(currentTrainer.currentUsersPosted(), ['fred']))
+    res.send 'Hey, ' + _.without(['fred', 'sam', 'katiegreenwood', 'missgraysouffle', 'jay', 'mvh', 'han', 'haley', 'kusskuss'], currentTrainer.currentUsersPosted()...).join(', ') + ', make sure you\'ve posted your idea today, and use :bulb: to make sure I recognise your message!'
 
 
   robot.hear /orly/, (res) ->

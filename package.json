@@ -1,7 +1,7 @@
 {
   "name": "hubot-trainer",
   "description": "A hubot script to train your team to do certain actions",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "author": "Frederick Fogerty <frederick.fogerty@gmail.com>",
   "license": "MIT",
   "keywords": "hubot, hubot-scripts",
@@ -13,7 +13,8 @@
     "url": "https://github.com/hubot-scripts/hubot-trainer/issues"
   },
   "dependencies": {
-    "cron": "^1.0.9"
+    "cron": "^1.0.9",
+    "lodash": "^3.10.1"
   },
   "peerDependencies": {
     "hubot": "2.x"

@@ -17,7 +17,7 @@ cron = require('cron').CronJob
 _ = require('lodash')
 
 startTrainer = (robot) ->
-  usersWhoShouldHavePosted = ['fred', 'sam', 'katiegreenwood', 'missgraysouffle', 'jay', 'mvh', 'han', 'haley', 'kusskuss']
+  usersWhoShouldHavePosted = ['fred', 'katiegreenwood', 'missgraysouffle', 'jay', 'mvh', 'han', 'haley', 'kusskuss']
   usersPostedLightbulb = []
   checkIfUsersPostedCron = new cron
     cronTime: '00 00 11 * * 1-5'
